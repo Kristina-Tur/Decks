@@ -1,9 +1,14 @@
 import { Dispatch } from 'redux'
-import { decksApi } from './decks-api.ts'
-import { getDecksAC } from './decks-reducer.ts'
+import { AddDeckParams, decksApi } from './decks-api.ts'
+import { addDeckAC, setDecksAC } from './decks-reducer.ts'
 
-export const getDecksTC = () => {
+export const fetchDecksTC = () => {
   return (dispatch: Dispatch) => {
-    decksApi.getDecks().then((res) => dispatch(getDecksAC(res.data)))
+    decksApi.getDecks().then((res) => dispatch(setDecksAC(res.data.items)))
+  }
+}
+export const addDeckTC = async (params: AddDeckParams) => {
+  return (dispatch: Dispatch) => {
+    return decksApi.addDeck(params).then((res) => dispatch(addDeckAC(res.data)))
   }
 }
